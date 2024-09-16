@@ -1,10 +1,18 @@
 \documentclass[12pt]{article}
 \usepackage{tikz}
 
+% global styles
+\tikzset{help lines/.style={color=blue!50,very thin,step=.5}}
+
 \begin{document}
 First tikz picture.
-\begin{tikzpicture}
-  \draw (-1.5,0) -- (1.5,0);
-  \draw (0,-1.5) -- (0,1.5);
-\end{tikzpicture}
+
+\begin{center}
+  \begin{tikzpicture}
+    \draw[help lines] (-1.4,-1.4) grid (1.4,1.4);
+    \draw (-1.5,0) -- (1.5,0);
+    \draw (0,-1.5) -- (0,1.5);
+    \draw (0,0) circle [radius=1cm];
+  \end{tikzpicture}
+\end{center}
 \end{document}
