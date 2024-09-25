@@ -15,6 +15,7 @@
   node distance= 5mm and 5mm,
   text height=1.5ex,
   text depth=.25ex,
+  shape=coordinate,
   >={Stealth[round]},
   every new ->/.style={
     shorten >=1pt,
@@ -43,28 +44,35 @@
     bottom color=black!20,
     font=\ttfamily,
   },
+  hv path/.style={
+    to path={-| (\tikztotarget)},
+  },
+  vh path/.style={
+    to path={|- (\tikztotarget)},
+  },
+  skip loop/.style={
+    to path={-- ++(0,#1) -| (\tikztotarget)},
+  },
 }
 
 \begin{document}
 \begin{tikzpicture}
-  \graph [grow right sep, branch down=7mm] {
-    /                 [coordinate]  ->
-    unsigned integer  [nonterminal] --
-    p1                [coordinate]  ->
-    "."               [terminal]    -- 
-    p2                [coordinate]  ->
-    digit             [terminal]    --
-    p3                [coordinate]  --
-    p4                [coordinate]  --
-    p5                [coordinate]  --
-    E                 [terminal]    -- 
-    q1                [coordinate]  ->
-    {
-      "+" [terminal],
-      ""  [coordinate],
-      "-" [terminal]
-    } ->
-    /unsigned integer[nonterminal]
+  \graph [grow right sep, branch down=7mm, simple] {
+    / -> unsigned integer [nonterminal] -- p1 -> "." [terminal] -- p2 -> 
+    digit [terminal] -- p3 -- p4 -- p5 -- E [terminal] -- q1 -> [vh path]
+    { [nodes={yshift=7mm}]
+      "+" [terminal], q2, "-" [terminal],
+    } -> [hv path]
+    q3                             --
+    /unsigned integer[nonterminal] --
+    p6                             ->
+    /;
+
+    p1 ->[skip loop=5mm] p4;
+    p3 ->[skip loop=-5mm] p2;
+    p5 ->[skip loop=-11mm] p6;
+
+    q1 -- q2 -- q3;
   };
 \end{tikzpicture}
 \end{document}
